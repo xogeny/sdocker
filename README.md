@@ -1,6 +1,11 @@
 sdocker
 =======
 
+## WARNING
+
+This code has only been lightly tested.  I'm putting it here mainly to get feedback (and for my own use).
+The idea is simple enough and hopefully everyting works as it should.  But beware.
+
 ## Overview
 
 This is a simple program written in Golang that is effectively a proxy for
