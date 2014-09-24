@@ -20,6 +20,10 @@ func run() int {
 	// Used to turn on debugging output
 	verbose := false
 
+	if os.Getenv("SDOCKER_DEBUG") != "" {
+		verbose = true
+	}
+
 	// Parse command line flags (we will forward these to the
 	// underlying docker process)
 	flag.Parse()
@@ -73,6 +77,8 @@ func run() int {
 			if err != nil {
 				log.Fatal(err.Error())
 			}
+			// We don't need the actual file, just the name.
+			os.Remove(tmp.Name())
 
 			if verbose {
 				log.Printf("Tunnel from localhost:%s to %s:%s", lport, dest, rport)
@@ -93,13 +99,11 @@ func run() int {
 				// Close ssh tunnel
 				stop := exec.Command("ssh", "-S", tmp.Name(),
 					"-O", "exit", dest)
-				// This exits with status code 255, but as far as I can tell,
-				// that is normal.  So I ignore the error (nothing I could
-				// do about it anyway really.
-				stop.Run()
+				err = stop.Run()
+				if err != nil {
+					log.Printf("Error closing tunnel: %v", err)
+				}
 
-				// Remove temporary file
-				os.Remove(tmp.Name())
 				if verbose {
 					log.Printf("Tunnel closed and control socket file removed")
 				}

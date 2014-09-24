@@ -15,6 +15,12 @@ value of `DOCKER_HOST` uses the `ssh` scheme, then it opens an ssh tunnel
 runs a `docker` and then closes the tunnel.  In this way, it allows a secure
 connection ot the docker server.
 
+## ChangeLog
+
+  * Version 0.2.0 - Fixed an issue with the temporary file removal
+
+  * Version 0.1.0 - Initial release
+
 ## Examples
 
 Here are some example values for `DOCKER_HOST` using the `ssh` scheme:
