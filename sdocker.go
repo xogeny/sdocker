@@ -141,7 +141,11 @@ func run() int {
 		}
 	}
 
-	// ...or another.
-	waitStatus := cmd.ProcessState.Sys().(syscall.WaitStatus)
+	if cmd.Process==nil {
+	  fmt.Printf("Error running subordinate docker command (is it in your path?)\n")
+	  return 1
+	}
+	state, _ := cmd.Process.Wait()
+	waitStatus := state.Sys().(syscall.WaitStatus)
 	return waitStatus.ExitStatus()
 }
